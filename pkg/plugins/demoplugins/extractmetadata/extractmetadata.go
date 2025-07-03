@@ -21,4 +21,23 @@ func ProcessLine(reqPtr, streamIdx, entryIdx uint64, linePtr uint64) {
 	}
 
 	pushrequest.AddStructuredMetadata(reqPtr, streamIdx, entryIdx, "new_metadata", "I added this")
+
+	// Try to extract some metadata as json
+	pushrequest.ExtractFromJson(reqPtr,
+		streamIdx,
+		entryIdx,
+		line,
+		"namespace", "meta.namespace",
+		"route", "meta.req.route",
+		"url", "meta.req.url",
+		"requestId", "meta.requestId",
+	)
+}
+
+//export process_json_match
+func ProcessJsonMatch(reqPtr, streamIdx, entryIdx uint64, keyPtr uint64, valuePtr uint64) {
+	key := guest.ReadString(keyPtr)
+	value := guest.ReadString(valuePtr)
+
+	pushrequest.AddStructuredMetadata(reqPtr, streamIdx, entryIdx, key, value)
 }
