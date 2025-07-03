@@ -2177,14 +2177,14 @@ func (t *Loki) initPluginMiddleware() (services.Service, error) {
 		return nil, err
 	}
 
-	extractMetadataPath, err := filepath.Abs("./pkg/plugins/demoplugins/extractmetadata/extractmetadata.wasm")
+	extractPath, err := filepath.Abs("./pkg/plugins/demoplugins/extract/extract.wasm")
 	if err != nil {
-		return nil, fmt.Errorf("failed to get absolute path for extractmetadata plugin: %w", err)
+		return nil, fmt.Errorf("failed to get absolute path for extract plugin: %w", err)
 	}
 
-	err = pluginMiddleware.Register(context.Background(), extractMetadataPath)
+	err = pluginMiddleware.Register(context.Background(), extractPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to register extractmetadata plugin: %w", err)
+		return nil, fmt.Errorf("failed to register extract plugin: %w", err)
 	}
 
 	// TODO we should wrap the wrap if one exists but ATM one doesn't so just set it
